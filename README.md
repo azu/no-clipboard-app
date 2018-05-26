@@ -8,8 +8,10 @@ You can pass from your clipboard text on your PC to your device like Oculus Go.
 
 ## Terminology
 
-- Client: Recive clipboard data from Server. For example Oculus Go is Client.
-- Server: This Electron app. Your PC/mac is Server
+- Client: Recieve clipboard data from Server.
+    - For example Oculus Go is Client.
+- Server: Padd clipboard data to Client. This app includes the Server.
+    - Your PC/mac is Server
 
 ## :warning: Note
 
