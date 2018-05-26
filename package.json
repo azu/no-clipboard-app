@@ -18,6 +18,10 @@
   "license": "MIT",
   "config": {
     "forge": {
+      "github_repository": {
+        "owner": "azu",
+        "name": "no-clipboard-app"
+      },
       "packagerConfig": {},
       "makers": [
         {
