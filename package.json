@@ -1,0 +1,86 @@
+{
+  "name": "no-clipboard-app",
+  "productName": "no-clipboard-app",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\"",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "precommit": "lint-staged",
+    "postcommit": "git reset"
+  },
+  "keywords": [],
+  "author": "azu",
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "platforms": [
+            "win32"
+          ],
+          "config": {
+            "name": "no_clipboard_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "platforms": [
+            "linux"
+          ],
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "platforms": [
+            "linux"
+          ],
+          "config": {}
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bookmarkletter": "^0.1.1",
+    "bootstrap": "^4.1.1",
+    "clipboardy": "^1.2.3",
+    "cors": "^2.8.4",
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.16.3",
+    "passport": "^0.4.0",
+    "passport-localapikey-update": "^0.6.0"
+  },
+  "devDependencies": {
+    "electron": "2.0.2",
+    "electron-forge": "^5.2.2",
+    "electron-prebuilt-compile": "*",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.2",
+    "prettier": "^1.12.1"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "printWidth": 120,
+    "tabWidth": 4
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
