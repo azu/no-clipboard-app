@@ -24,12 +24,12 @@ Potentially, Anyone can access your clipboard via the internet when running this
 
 - [ ] Download app
 
-### Run app
+### Run app on local
 
     yarn
     yarn start
 
-### Build app
+### Build app on local
 
     yarn
     yarn make
