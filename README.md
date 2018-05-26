@@ -6,14 +6,21 @@ You can pass from your clipboard text on your PC to your device like Oculus Go.
 
 > PC -> Device's browser
 
-![image](./docs/screenshot.png)
-
 ## Terminology
 
 - Client: Recieve clipboard data from Server.
     - For example Oculus Go is Client.
 - Server: Padd clipboard data to Client. This app includes the Server.
     - Your PC/mac is Server
+
+
+**Client:**
+
+![Client](./docs/client.gif)
+
+**Server:**
+
+![Server|App](./docs/screenshot-app.png)
 
 ## :warning: Note
 
