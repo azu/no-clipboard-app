@@ -6,6 +6,8 @@ You can pass from your clipboard text on your PC to your device like Oculus Go.
 
 > PC -> Device's browser
 
+![image](https://monosnap.com/direct/AMCIWRcoop88VOyxMTDVHd4Zs3V3IU)
+
 ## Terminology
 
 - Client: Recieve clipboard data from Server.
@@ -19,12 +21,15 @@ This app share the clipboard data via [Localtunnel](https://localtunnel.github.i
 
 > Client -> request -> [Localtunnel](https://localtunnel.github.io/www/) -> (local) Server.
 
-[Localtunnel](https://localtunnel.github.io/www/)'s subdomain is randomize and it is hard to guess the url.
+[Localtunnel](https://localtunnel.github.io/www/)'s subdomain is randomized and it is hard to guess the url.
 Potentially, Anyone can access your clipboard via the internet when running this Server/App.
 
 ## Installation
 
-- [ ] Download app
+- Download app from [latest releases](https://github.com/azu/no-clipboard-app/releases/latest)
+
+Currently, released binary is mac only.
+But, you can run/build this app for your platform.
 
 ### Run app on local
 
@@ -39,6 +44,7 @@ Potentially, Anyone can access your clipboard via the internet when running this
 ## Usage
 
 1. Run app(This is a server)
+    - Click "Open" on context menu
 2. Register bookmarklet to your client
 3. Focus `<input>` or `<textarea>` on your client's browser
     - This bookmarklet depended on [activeElement](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement).
