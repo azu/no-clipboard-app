@@ -6,7 +6,7 @@ You can pass from your clipboard text on your PC to your device like Oculus Go.
 
 > PC -> Device's browser
 
-![image](https://monosnap.com/direct/AMCIWRcoop88VOyxMTDVHd4Zs3V3IU)
+![image](./docs/screenshot.png)
 
 ## Terminology
 
