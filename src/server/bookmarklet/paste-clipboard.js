@@ -1,5 +1,5 @@
 const activeElement = document.activeElement;
-fetch("http://localhost:7678/clipboard")
+fetch("https://localhost:7678/clipboard")
     .then(res => {
         return res.json();
     })

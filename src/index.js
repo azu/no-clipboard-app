@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require("electron");
+const { Menu, app, shell, BrowserWindow } = require("electron");
 const { ClipboardServer } = require("./server/ClipboardServer");
+const defaultMenu = require("electron-default-menu");
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
     // eslint-disable-line global-require
@@ -17,16 +18,17 @@ const createWindow = () => {
         width: 800,
         height: 600
     });
-
-    // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-
     // server
     clipboardServer = new ClipboardServer();
-    clipboardServer.start();
+    clipboardServer
+        .start()
+        .then(() => {
+            // and load the index.html of the app.
+            mainWindow.loadURL(`file://${__dirname}/index.html`);
+        })
+        .catch(error => {
+            console.error(error);
+        });
     // Emitted when the window is closed.
     mainWindow.on("closed", () => {
         // Dereference the window object, usually you would store windows
@@ -36,6 +38,8 @@ const createWindow = () => {
         clipboardServer.stop();
         clipboardServer = null;
     });
+    const menu = defaultMenu(app, shell);
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 };
 
 // This method will be called when Electron has finished

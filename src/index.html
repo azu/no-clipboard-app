@@ -17,6 +17,17 @@
         .center {
             text-align: center;
         }
+
+        .is-device {
+
+        }
+
+        .is-device {
+            background: #fffbdc;
+        }
+        .is-app {
+            background: #7fffd4;
+        }
     </style>
 </head>
 <body>
@@ -28,9 +39,10 @@
         <div>
             <h2>Usage</h2>
             <ul class="list-group">
-                <li class="list-group-item">1. Register bookmark to your device</li>
-                <li class="list-group-item">2. Copy text which is sent to your device</li>
-                <li class="list-group-item">3. Run clipboard bookmarklet on your device</li>
+                <li class="list-group-item is-device">Client) 1. Register this <a href="http://localhost:7678/bookmarklet">Bookmarklet</a>
+                    to your client. Visit <code id="js-bookmarklet-url">http://localhost:7678/bookmarklet</code></li>
+                <li class="list-group-item is-app">Server|App) 2. Copy text which is sent to your client from this app</li>
+                <li class="list-group-item is-device">Client) 3. Run clipboard Bookmarklet on your client</li>
             </ul>
         </div>
         <form id="js-form">
@@ -42,23 +54,27 @@
                     <textarea class="form-control" id="clipboard" aria-describedby="clipboard content"></textarea>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Update Clipboard</button>
         </form>
-
-        <footer>
-            <a href="http://localhost:7678/bookmarklet">Bookmarklet</a>
-        </footer>
     </div>
 </div>
 <script type="module">
     const form = document.querySelector("#js-form");
     const clipboard = document.querySelector("#clipboard");
+    const bookmarkletCode = document.querySelector("#js-bookmarklet-url");
     const updateClipboard = () => {
         fetch("http://localhost:7678/clipboard").then((res) => {
             return res.json()
         }).then(response => {
             if (response.text) {
                 clipboard.value = response.text;
+            }
+        });
+        fetch("http://localhost:7678/tunnel").then((res) => {
+            return res.json()
+        }).then(response => {
+            if (response.url) {
+                bookmarkletCode.textContent = `${response.url}/bookmarklet`;
             }
         });
     };
