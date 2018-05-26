@@ -54,7 +54,7 @@
           "config": {
             "repository": {
               "owner": "azu",
-              "name": "no-clipboard"
+              "name": "no-clipboard-app"
             },
             "prerelease": false
           }
