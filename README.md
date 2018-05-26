@@ -24,6 +24,16 @@ Potentially, Anyone can access your clipboard via the internet when running this
 
 - [ ] Download app
 
+### Run app
+
+    yarn
+    yarn start
+
+### Build app
+
+    yarn
+    yarn make
+
 ## Usage
 
 1. Run app(This is a server)
