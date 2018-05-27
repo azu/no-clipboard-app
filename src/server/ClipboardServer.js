@@ -23,7 +23,7 @@ const sessionChecker = (req, res, next) => {
 
 export class ClipboardServer {
     constructor() {
-        if (!localTunnel.has()) {
+        if (!localTunnel.has() || !session.has()) {
             this.resetTunnel();
         }
 
