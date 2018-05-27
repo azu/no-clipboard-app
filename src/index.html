@@ -65,11 +65,19 @@
     </div>
 </div>
 <script type="module">
+    const { ipcRenderer } = require("electron");
+    let localTunnelId, secretKey;
     const form = document.querySelector("#js-form");
     const clipboard = document.querySelector("#clipboard");
     const bookmarkletCode = document.querySelector("#js-bookmarklet-url");
     const updateClipboard = () => {
-        fetch("http://localhost:7678/clipboard").then((res) => {
+        fetch("http://localhost:7678/clipboard", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "secret-key": secretKey
+            },
+        }).then((res) => {
             return res.json()
         }).then(response => {
             if (response.text) {
@@ -84,7 +92,12 @@
             }
         });
     };
-    window.addEventListener("load", updateClipboard, false);
+    // receive secret key and tunnel
+    ipcRenderer.on('init', (event, _localTunnelId, _secretKey) => {
+        localTunnelId = _localTunnelId;
+        secretKey = _secretKey;
+        updateClipboard()
+    });
     document.addEventListener("visibilitychange", updateClipboard, false);
     form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -93,7 +106,8 @@
             method: "post",
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "secret-key": secretKey
             },
             body: JSON.stringify({
                 text: clipboardContent

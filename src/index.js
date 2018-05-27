@@ -1,5 +1,6 @@
-const { Menu, app, shell, BrowserWindow } = require("electron");
+const { Menu, app, shell, BrowserWindow, ipcMain } = require("electron");
 const { ClipboardServer } = require("./server/ClipboardServer");
+const { session, localTunnel } = require("./server/config");
 const defaultMenu = require("electron-default-menu");
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -25,6 +26,10 @@ const createWindow = () => {
         .then(() => {
             // and load the index.html of the app.
             mainWindow.loadURL(`file://${__dirname}/index.html`);
+            mainWindow.webContents.once("dom-ready", () => {
+                // pass secret-key
+                mainWindow.webContents.send("init", localTunnel.get(), session.get());
+            });
         })
         .catch(error => {
             console.error(error);

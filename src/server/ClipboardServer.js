@@ -9,31 +9,8 @@ const bookmarkletter = require("bookmarkletter").bookmarkletter;
 const cors = require("cors");
 const localtunnel = require("localtunnel");
 const nanoid = require("nanoid");
-const Store = require("electron-store");
 const htmlspecialchars = require("htmlspecialchars");
-const store = new Store();
-const localTunnel = {
-    get() {
-        return store.get("localtunnel");
-    },
-    has() {
-        return store.has("localtunnel");
-    },
-    set(subDomainName) {
-        store.set("localtunnel", subDomainName);
-    }
-};
-const session = {
-    get() {
-        return store.get("session-id");
-    },
-    has() {
-        return store.has("session-id");
-    },
-    set(sessionId) {
-        store.set("session-id", sessionId);
-    }
-};
+const { session, localTunnel } = require("./config");
 // check "secret-key" header
 const sessionChecker = (req, res, next) => {
     const secretKey = req.header("secret-key");
