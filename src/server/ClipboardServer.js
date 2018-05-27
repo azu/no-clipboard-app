@@ -46,7 +46,6 @@ export class ClipboardServer {
                 "go-to-clipboard": "go-to-clipboard"
             };
             const queryName = req.query.name;
-            console.log("?name", queryName);
             const bookmarkletTitle =
                 (queryName && titleMap.hasOwnProperty(queryName) && titleMap[queryName]) || titleMap["paste-clipboard"];
             const code = fs.readFileSync(path.join(__dirname, `bookmarklet/${bookmarkletTitle}.js`), "utf-8");
