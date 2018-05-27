@@ -1,6 +1,5 @@
 const API_ORIGIN = "{{API_ORIGIN}}";
 const SECRET_KEY = "{{SECRET_KEY}}";
-const activeElement = document.activeElement;
 fetch(`${API_ORIGIN}/clipboard`, {
     headers: {
         "secret-key": SECRET_KEY

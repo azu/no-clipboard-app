@@ -13,7 +13,6 @@ You can pass from your clipboard text on your PC to your device like Oculus Go.
 - Server: Padd clipboard data to Client. This app includes the Server.
     - Your PC/mac is Server
 
-
 **Client:**
 
 ![Client](./docs/client.gif)
