@@ -5,10 +5,20 @@
     <title>{{title}}</title>
 </head>
 <body>
+<h2>Usage</h2>
 <ol>
     <li>Bookmark this page.</li>
     <li>Remove "http://.../copy/{{title}}?" from URL</li>
     <li>Next: You can run the bookmarklet on your client</li>
 </ol>
+<h3>Other bookmarklet</h3>
+<ul>
+    <li><a href="/bookmarklet?name=paste-clipboard">paste-clipboard</a>
+        <p>Get clipboard text from server and past it to focus input element.</p></li>
+    <li><a href="/bookmarklet?name=go-to-clipboard">go-to-clipboard</a>
+        <p>Get clipboard text from server and treat it as URL, then go to the URL.</p></li>
+    <li><a href="/bookmarklet?name=copy-clipboard">copy-clipboard</a>
+        <p>Unuseful. Send client's selection text to server</p></li>
+</ul>
 </body>
 </html>

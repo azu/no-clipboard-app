@@ -42,7 +42,8 @@ export class ClipboardServer {
         this.app.get("/bookmarklet", (req, res) => {
             const titleMap = {
                 "paste-clipboard": "paste-clipboard",
-                "copy-clipboard": "copy-clipboard"
+                "copy-clipboard": "copy-clipboard",
+                "go-to-clipboard": "go-to-clipboard"
             };
             const queryName = req.query.name;
             console.log("?name", queryName);
