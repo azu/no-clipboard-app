@@ -22,6 +22,26 @@ const localTunnel = {
         store.set("localtunnel", subDomainName);
     }
 };
+const session = {
+    get() {
+        return store.get("session-id");
+    },
+    has() {
+        return store.has("session-id");
+    },
+    set(sessionId) {
+        store.set("session-id", sessionId);
+    }
+};
+// check "secret-key" header
+const sessionChecker = (req, res, next) => {
+    const secretKey = req.header("secret-key");
+    if (secretKey === session.get()) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+};
 
 export class ClipboardServer {
     constructor() {
@@ -35,36 +55,30 @@ export class ClipboardServer {
         // parse application/json
         this.app.use(bodyParser.json());
         this.app.use(cors());
+        // embed page
+        this.app.get("/copy", (req, res) => {
+            res.send(fs.readFileSync(path.join(__dirname, "bookmarklet.html"), "utf-8"));
+        });
         this.app.get("/bookmarklet", (req, res) => {
-            if (req.url.includes("?")) {
-                res.send(fs.readFileSync(path.join(__dirname, "bookmarklet.html"), "utf-8"));
-                return;
-            }
-            const result = bookmarkletter(`
-const activeElement = document.activeElement;
-fetch("${this.tunnelURL}/clipboard")
-    .then(res => {
-        return res.json();
-    })
-    .then(response => {
-        if (response.text) {
-            activeElement.value = response.text;
-        }
-    });
-`);
-            res.redirect("/bookmarklet?" + result);
+            const code = fs.readFileSync(path.join(__dirname, "bookmarklet/paste-clipboard.js"), "utf-8");
+            const localTunnelOrigin = `https://${localTunnel.get()}.localtunnel.me`;
+            const embedCode = code
+                .replace("{{API_ORIGIN}}", localTunnelOrigin)
+                .replace("{{SECRET_KEY}}", session.get());
+            const result = bookmarkletter(embedCode);
+            res.redirect("/copy?" + result);
         });
         this.app.get("/tunnel", (req, res) => {
             res.json({
                 url: this.tunnelURL
             });
         });
-        this.app.get("/clipboard", (req, res) => {
+        this.app.get("/clipboard", sessionChecker, (req, res) => {
             res.json({
                 text: clipboardy.readSync()
             });
         });
-        this.app.post("/clipboard", (req, res) => {
+        this.app.post("/clipboard", sessionChecker, (req, res) => {
             if (!req.body) {
                 return res.sendStatus(400);
             }
@@ -82,6 +96,8 @@ fetch("${this.tunnelURL}/clipboard")
             .replace(/^\d/, "a")
             .toLowerCase();
         localTunnel.set(subDomainName);
+        const sessionId = nanoid().toLowerCase();
+        session.set(sessionId);
     }
 
     async restart() {
@@ -91,7 +107,7 @@ fetch("${this.tunnelURL}/clipboard")
 
     start(port = 7678) {
         return new Promise((resolve, reject) => {
-            this.app.listen(port, function(error) {
+            this.app.listen(port, error => {
                 if (error) {
                     reject(error);
                 } else {
@@ -125,7 +141,9 @@ fetch("${this.tunnelURL}/clipboard")
     }
 
     async stop() {
-        this.app.close();
+        if (this.app) {
+            this.app.close();
+        }
         this.tunnel.close();
     }
 }
