@@ -57,6 +57,18 @@ But, you can run/build this app for your platform.
     - This bookmarklet depended on [activeElement](https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement).
 4. Run the bookmarklet in your client
 
+### Bookmarklets
+
+Current implementation of bookmarklets is [src/server/bookmarklet](src/server/bookmarklet).
+
+- [copy-clipboard.js](src/server/bookmarklet/copy-clipboard.js)
+- [go-to-clipboard.js](src/server/bookmarklet/go-to-clipboard.js)
+- [paste-clipboard.js](src/server/bookmarklet/paste-clipboard.js)
+
+If you have other bookmarklet idea, please send pull request.
+
+Note: This **generated** bookmarket code include secret-key, you don not share it.
+
 ## Contributing
 
 1. Fork it!
