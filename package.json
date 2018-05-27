@@ -1,7 +1,7 @@
 {
   "name": "no-clipboard",
   "productName": "no-clipboard",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Share your clipboard text to your device like Oculus Go.",
   "main": "src/index.js",
   "scripts": {
