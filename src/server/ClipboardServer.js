@@ -10,6 +10,7 @@ const cors = require("cors");
 const localtunnel = require("localtunnel");
 const nanoid = require("nanoid");
 const Store = require("electron-store");
+const htmlspecialchars = require("htmlspecialchars");
 const store = new Store();
 const localTunnel = {
     get() {
@@ -56,17 +57,27 @@ export class ClipboardServer {
         this.app.use(bodyParser.json());
         this.app.use(cors());
         // embed page
-        this.app.get("/copy", (req, res) => {
-            res.send(fs.readFileSync(path.join(__dirname, "bookmarklet.html"), "utf-8"));
+        this.app.get("/copy/:title/?", (req, res) => {
+            const copyPageHTML = fs.readFileSync(path.join(__dirname, "bookmarklet.html"), "utf-8");
+            const embedTitled = copyPageHTML.replace(/{{title}}/g, htmlspecialchars(req.params.title));
+            res.send(embedTitled);
         });
         this.app.get("/bookmarklet", (req, res) => {
-            const code = fs.readFileSync(path.join(__dirname, "bookmarklet/paste-clipboard.js"), "utf-8");
+            const titleMap = {
+                "paste-clipboard": "paste-clipboard",
+                "copy-clipboard": "copy-clipboard"
+            };
+            const queryName = req.query.name;
+            console.log("?name", queryName);
+            const bookmarkletTitle =
+                (queryName && titleMap.hasOwnProperty(queryName) && titleMap[queryName]) || titleMap["paste-clipboard"];
+            const code = fs.readFileSync(path.join(__dirname, `bookmarklet/${bookmarkletTitle}.js`), "utf-8");
             const localTunnelOrigin = `https://${localTunnel.get()}.localtunnel.me`;
             const embedCode = code
                 .replace("{{API_ORIGIN}}", localTunnelOrigin)
                 .replace("{{SECRET_KEY}}", session.get());
             const result = bookmarkletter(embedCode);
-            res.redirect("/copy?" + result);
+            res.redirect(`/copy/${bookmarkletTitle}/?${result}`);
         });
         this.app.get("/tunnel", (req, res) => {
             res.json({
